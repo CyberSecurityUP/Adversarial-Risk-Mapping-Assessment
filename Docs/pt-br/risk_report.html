@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.R.M.A. Risk Score Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .section h2 {
+      color: #34495e;
+      border-left: 5px solid #2980b9;
+      padding-left: 10px;
+      margin-bottom: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #2980b9;
+      color: #fff;
+    }
+    .high {
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .medium {
+      background-color: #f39c12;
+      color: #fff;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .low {
+      background-color: #27ae60;
+      color: #fff;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .critical {
+      background-color: #c0392b;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛡️ A.R.M.A. Risk Score Report</h1>
+
+    <div class="section">
+      <h2>Resumo Executivo</h2>
+      <p>O cenário de ataque simulado demonstrou risco extremo ao negócio, com violação de compliance e possibilidade real de impacto financeiro significativo.</p>
+    </div>
+
+    <div class="section">
+      <h2>Detalhamento do Score de Risco</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Pontuação</th>
+            <th>Peso</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Técnica</td>
+            <td>8</td>
+            <td>1.5</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>Profundidade</td>
+            <td>9</td>
+            <td>2</td>
+            <td>18</td>
+          </tr>
+          <tr>
+            <td>Impacto Negócio</td>
+            <td>9</td>
+            <td>3</td>
+            <td>27</td>
+          </tr>
+          <tr>
+            <td>Compliance</td>
+            <td>9</td>
+            <td>2</td>
+            <td>18</td>
+          </tr>
+          <tr>
+            <td>Detecção</td>
+            <td>10</td>
+            <td>1.5</td>
+            <td>15</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <p><strong>Cadeia de Ataque:</strong> <span class="high">x2 (Pivotagem Completa)</span></p>
+    </div>
+
+    <div class="section">
+      <h2>Resultado Final</h2>
+      <p class="critical">Score Final: <strong>180</strong> → Classificação: <strong>Risco Extremo</strong></p>
+    </div>
+
+    <div class="section">
+      <h2>Recomendações Imediatas</h2>
+      <ul>
+        <li>Aplicação de correções nas falhas de autenticação e validação de entrada.</li>
+        <li>Revisão do SIEM e EDR que não detectaram a movimentação lateral.</li>
+        <li>Auditoria de compliance imediata para PCI DSS e LGPD.</li>
+        <li>Planejamento de resposta a incidentes (IR Plan) e simulação de crise.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Compliance Impactado</h2>
+      <ul>
+        <li>PCI DSS - Violação Crítica</li>
+        <li>LGPD - Vazamento de Dados Sensíveis</li>
+        <li>DORA - Exposição à Continuidade Operacional</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
