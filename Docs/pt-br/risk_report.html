@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A.R.M.A. Risk Score Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -13,7 +14,7 @@
       padding: 20px;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       background: #fff;
       padding: 30px;
       border-radius: 10px;
@@ -48,31 +49,34 @@
       background-color: #2980b9;
       color: #fff;
     }
-    .high {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 8px;
-      border-radius: 5px;
+    .high { background-color: #e74c3c; color: #fff; padding: 8px; border-radius: 5px; }
+    .medium { background-color: #f39c12; color: #fff; padding: 8px; border-radius: 5px; }
+    .low { background-color: #27ae60; color: #fff; padding: 8px; border-radius: 5px; }
+    .critical { background-color: #c0392b; color: #fff; padding: 10px; border-radius: 8px; text-align: center; font-size: 1.2em; }
+    .risk-chain {
+      border-left: 4px solid #2980b9;
+      padding-left: 15px;
+      margin-top: 20px;
+      line-height: 1.8em;
     }
-    .medium {
-      background-color: #f39c12;
-      color: #fff;
-      padding: 8px;
-      border-radius: 5px;
+    .timeline {
+      border-left: 3px solid #2980b9;
+      margin: 20px 0;
+      padding-left: 20px;
     }
-    .low {
-      background-color: #27ae60;
-      color: #fff;
-      padding: 8px;
-      border-radius: 5px;
+    .timeline div {
+      margin-bottom: 15px;
+      position: relative;
     }
-    .critical {
-      background-color: #c0392b;
-      color: #fff;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 1.2em;
+    .timeline div::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background-color: #2980b9;
+      border-radius: 50%;
+      position: absolute;
+      left: -26px;
+      top: 4px;
     }
   </style>
 </head>
@@ -97,36 +101,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Técnica</td>
-            <td>8</td>
-            <td>1.5</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>Profundidade</td>
-            <td>9</td>
-            <td>2</td>
-            <td>18</td>
-          </tr>
-          <tr>
-            <td>Impacto Negócio</td>
-            <td>9</td>
-            <td>3</td>
-            <td>27</td>
-          </tr>
-          <tr>
-            <td>Compliance</td>
-            <td>9</td>
-            <td>2</td>
-            <td>18</td>
-          </tr>
-          <tr>
-            <td>Detecção</td>
-            <td>10</td>
-            <td>1.5</td>
-            <td>15</td>
-          </tr>
+          <tr><td>Técnica</td><td>8</td><td>1.5</td><td>12</td></tr>
+          <tr><td>Profundidade</td><td>9</td><td>2</td><td>18</td></tr>
+          <tr><td>Impacto Negócio</td><td>9</td><td>3</td><td>27</td></tr>
+          <tr><td>Compliance</td><td>9</td><td>2</td><td>18</td></tr>
+          <tr><td>Detecção</td><td>10</td><td>1.5</td><td>15</td></tr>
         </tbody>
       </table>
       <br>
@@ -139,13 +118,25 @@
     </div>
 
     <div class="section">
-      <h2>Recomendações Imediatas</h2>
-      <ul>
-        <li>Aplicação de correções nas falhas de autenticação e validação de entrada.</li>
-        <li>Revisão do SIEM e EDR que não detectaram a movimentação lateral.</li>
-        <li>Auditoria de compliance imediata para PCI DSS e LGPD.</li>
-        <li>Planejamento de resposta a incidentes (IR Plan) e simulação de crise.</li>
-      </ul>
+      <h2>Gráfico de Distribuição do Score</h2>
+      <canvas id="riskChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="section">
+      <h2>Risk Chain Mapping</h2>
+      <div class="risk-chain">
+        <strong>SQL Injection</strong> → <strong>Admin Access</strong> → <strong>Pivot to Database</strong> → <strong>Data Exfiltration (500GB)</strong> → <strong>Financial Loss</strong>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Timeline do Ataque</h2>
+      <div class="timeline">
+        <div><strong>[Dia 1]</strong> - Reconhecimento e descoberta da vulnerabilidade SQLi.</div>
+        <div><strong>[Dia 2]</strong> - Exploração e acesso ao painel administrativo.</div>
+        <div><strong>[Dia 3]</strong> - Pivotagem para banco de dados financeiro.</div>
+        <div><strong>[Dia 4]</strong> - Exfiltração de 500GB de dados sensíveis.</div>
+      </div>
     </div>
 
     <div class="section">
@@ -157,5 +148,27 @@
       </ul>
     </div>
   </div>
+
+  <script>
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Técnica', 'Profundidade', 'Impacto', 'Compliance', 'Detecção'],
+        datasets: [{
+          label: 'Pontuação por Categoria',
+          data: [12, 18, 27, 18, 15],
+          backgroundColor: ['#2980b9', '#27ae60', '#c0392b', '#8e44ad', '#f39c12']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, suggestedMax: 30 }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
