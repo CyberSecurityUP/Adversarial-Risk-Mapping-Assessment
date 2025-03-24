@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.R.M.A. DVWA Pentest Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; color: #333; padding: 20px; }
+    .container { max-width: 1000px; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1); margin: auto; }
+    h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+    h2 { color: #34495e; border-left: 5px solid #2980b9; padding-left: 10px; margin-bottom: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 12px; text-align: center; border-bottom: 1px solid #ddd; }
+    th { background-color: #2980b9; color: #fff; }
+    .critical { background-color: #c0392b; color: #fff; padding: 10px; border-radius: 8px; text-align: center; font-size: 1.2em; }
+    .btn { background: #2980b9; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; float: right; }
+    .btn:hover { background: #1f5e7a; }
+  </style>
+</head>
+<body>
+<div class="container" id="report">
+  <h1>🛡 A.R.M.A. DVWA Pentest Report</h1>
+
+  <h2>Resumo Executivo</h2>
+  <p>O Pentest no ambiente DVWA simulando uma fintech revelou riscos extremos, com pivotagens completas, vazamento de dados, e total comprometimento do ambiente.</p>
+
+  <h2>Risk Chain Mapping</h2>
+  <p><strong>Brute Force</strong> → <strong>SQLi Dump</strong> → <strong>Command Injection (RCE)</strong> → <strong>WebShell Upload</strong> → <strong>Controle Total</strong></p>
+
+  <h2>Timeline de Ataque</h2>
+  <ul>
+    <li>Dia 1 - Recon e Brute Force</li>
+    <li>Dia 2 - SQL Injection e Dump de Banco</li>
+    <li>Dia 3 - RCE via Command Injection</li>
+    <li>Dia 4 - Upload de WebShell e Controle Total</li>
+  </ul>
+
+  <h2>Detalhamento de Exploração</h2>
+  <table>
+    <thead>
+      <tr><th>Vetor</th><th>CWE / OWASP</th><th>Impacto</th><th>Compliance Violado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Brute Force</td><td>CWE-798 / OWASP A01</td><td>Acesso Admin</td><td>PCI DSS 8.1</td></tr>
+      <tr><td>SQLi</td><td>CWE-89 / OWASP A03</td><td>Roubo de DB</td><td>PCI DSS 6.5.1 / LGPD Art.46</td></tr>
+      <tr><td>RCE</td><td>CWE-77</td><td>Execução Remota</td><td>DORA - Continuidade</td></tr>
+      <tr><td>Upload Shell</td><td>CWE-434</td><td>Persistência / Exfiltração</td><td>PCI DSS 6.5.9</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Risk Score (Cálculo Final)</h2>
+  <table>
+    <thead>
+      <tr><th>Categoria</th><th>Score</th><th>Peso</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Técnica</td><td>9</td><td>1.5</td><td>13.5</td></tr>
+      <tr><td>Profundidade</td><td>10</td><td>2</td><td>20</td></tr>
+      <tr><td>Impacto</td><td>9</td><td>3</td><td>27</td></tr>
+      <tr><td>Compliance</td><td>9</td><td>2</td><td>18</td></tr>
+      <tr><td>Detecção</td><td>10</td><td>1.5</td><td>15</td></tr>
+    </tbody>
+  </table>
+  <p class="critical">Total Base: 93.5 | Cadeia/Pivotagem: x2 → <strong>Score Final: 187 (Risco Extremo)</strong></p>
+
+  <h2>Gráfico de Score</h2>
+  <canvas id="riskChart" width="400" height="200"></canvas>
+
+  <h2>Recomendações Profissionais</h2>
+  <ul>
+    <li>Implementar WAF e bloqueio de brute-force</li>
+    <li>Sanitização FULL da SQLi</li>
+    <li>Rotatividade de credenciais e MFA</li>
+    <li>Reforço nas políticas de upload e revisão de permissão</li>
+    <li>Segmentação da aplicação e testes A.R.M.A. recorrentes</li>
+  </ul>
+</div>
+
+<button class="btn" onclick="downloadPDF()">Exportar PDF</button>
+
+<script>
+const ctx = document.getElementById('riskChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Técnica', 'Profundidade', 'Impacto', 'Compliance', 'Detecção'],
+    datasets: [{
+      label: 'Pontuação',
+      data: [13.5, 20, 27, 18, 15],
+      backgroundColor: ['#2980b9', '#27ae60', '#c0392b', '#8e44ad', '#f39c12']
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+
+function downloadPDF() {
+  const element = document.getElementById('report');
+  html2pdf().from(element).save('DVWA_Pentest_Report.pdf');
+}
+</script>
+</body>
+</html>
